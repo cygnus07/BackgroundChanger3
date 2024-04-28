@@ -1,118 +1,107 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, {useState} from 'react'
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+export default function App() {
+    const [bgColor, setbgColor] = useState("color")
+    const [circleColor, setCircleColor] = useState("#ffffff")
+    const [squareColor, setSquareColor] = useState("#ffffff")
+    const [aColor, setAColor] = useState("#ffffff")
+    const [bColor, setBColor] = useState("#ffffff")
+    const generate = () => {
+        const hexColor = "0123456789ABCDEF"
+        let color = "#"
+        let circleColor ="#"
+        let squareColor = "#"
+        let aColor = "#"
+        let bColor ="#"
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+        for(let i=0;i<6;i++){
+          let x=hexColor[Math.floor(Math.random()*16)];
+          color+=x;
+          circleColor += hexColor[Math.floor(Math.random()*16)];
+          squareColor += hexColor[Math.floor(Math.random()*16)];
+          aColor += hexColor[Math.floor(Math.random()*16)];
+          bColor += hexColor[Math.floor(Math.random()*16)];
+        }
+        setbgColor(color)
+        setCircleColor(circleColor)
+        setSquareColor(squareColor)
+        setAColor(aColor)
+        setBColor(bColor)
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+    } 
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+    return (
+    <>
+    <StatusBar backgroundColor={bgColor}/>
+      <View style={[styles.container, {backgroundColor: bgColor}]}> 
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+       <View style={styles.shapeContainer}>
+       <View style={[styles.circleShape, {backgroundColor: squareColor}]}></View>
+        <View style={[styles.squareShape, {backgroundColor: circleColor}]}></View>
+       </View>
+       <View style={[styles.circleShapeOutside, {backgroundColor: aColor}]}></View>
+        <View style={styles.btn}>
+          <TouchableOpacity onPress={generate}>
+          <Text style={[styles.btnTxt, {backgroundColor: bgColor}]}>Press Me</Text>
+          </TouchableOpacity>
+          
+        
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+        <View style={styles.shapeContainer}>
+        <View style={[styles.squareShape, {backgroundColor: aColor}]}></View>
+       <View style={[styles.circleShape, {backgroundColor: bColor}]}></View>
+       </View>
+      </View>
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
   },
-  sectionTitle: {
+  btn: {
+   // paddingVertical: 10,
+   // paddingHorizontal: 12,
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    marginVertical: 90
+  },
+  btnTxt: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    color: '#000000'
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  horizantalBox: {
+   height: 100,
+   width: 100,
+   borderRadius: 50
+  //  backgroundColor: 'orange'
   },
-  highlight: {
-    fontWeight: '700',
+  circleShape: {
+    height: 200,
+   width: 200,
+   borderRadius: 100,
+   marginHorizontal: 20,
+   marginBottom: 100
   },
-});
-
-export default App;
+  squareShape: {
+    height: 150,
+    width: 150,
+    borderRadius: 10,
+    marginHorizontal: 20
+  },
+  shapeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // marginBottom: 30
+  },
+  circleShapeOutside: {
+    height: 75,
+    width: 75,
+    borderRadius: 37
+  }
+})
